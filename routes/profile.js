@@ -4,6 +4,8 @@ const passport = require('passport');
 
 //validation 
 const validateProfileInput = require('../validation/profile');
+const validateEducationInput = require('../validation/education');
+const validateExperienceInput = require('../validation/experience');
 
 //user model
 const User = require('../models/User');
@@ -17,7 +19,7 @@ router.get('/test', (req, res) => {
 
 //get profile of the user (private)
 
-router.get('/', passport.authenticate('jwt', ({session : false}), (req, res) => {
+router.get('/', passport.authenticate('jwt', {session : false}), (req, res) => {
     const errors = {};
 
     Profile.findOne({user : req.user.id})
@@ -30,7 +32,7 @@ router.get('/', passport.authenticate('jwt', ({session : false}), (req, res) => 
             res.json(profile);
         })
         .catch(err => console.log(errors)); 
-}));
+});
 
 //get all profiles (public route)
 router.get('/all', (req, res) => {
@@ -139,6 +141,66 @@ router.post('/', passport.authenticate('jwt', {session : false}), (req, res) => 
                     })
             }
         })
+});
+
+//add education fields to the user profile
+router.post('/education', passport.authenticate('jwt', {session : false}), (req, res) => {
+
+    const {errors , isValid } = validateEducationInput(req.body)
+
+    if(!isValid){
+        return res.status(400).json(errors); 
+    }
+
+    Profile.findOne({user : req.user.id})
+        .then(profile => {
+            const education = {
+                school : req.body.school,
+                degree : req.body.degree,
+                fieldofstudy : req.body.fieldofstudy,
+                from : req.body.from,
+                to : req.body.to,
+                current : req.body.current,
+                description : req.body.description,
+            };
+
+            profile.education.unshift(education); 
+
+            profile.save().then(profile => res.status(200).json(profile));
+        }); 
+});
+
+//add education fields to the user profile
+router.post('/experience', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    const {
+        errors,
+        isValid
+    } = validateExperienceInput(req.body)
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Profile.findOne({
+            user: req.user.id
+        })
+        .then(profile => {
+            const experience = {
+                title: req.body.title,
+                company: req.body.company,
+                location: req.body.location,
+                from: req.body.from,
+                to: req.body.to,
+                current: req.body.current,
+                description: req.body.description,
+            };
+
+            profile.experience.unshift(experience);
+
+            profile.save().then(profile => res.status(200).json(profile));
+        });
 });
 
 
