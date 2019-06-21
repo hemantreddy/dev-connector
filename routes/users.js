@@ -103,7 +103,7 @@ router.post('/login', (req, res) => {
         });
 });
 
-//current user
+//current user (private route)
 
 router.get('/current', passport.authenticate('jwt', {session : false}),
     (req, res) => {

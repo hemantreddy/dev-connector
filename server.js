@@ -4,7 +4,10 @@ const app = express();
 const dev = require('morgan')
 const mongoose = require('mongoose'); 
 const passport = require('passport');
+
+//routes
 const users = require('./routes/users');
+const profile = require('./routes/profile'); 
 
 const mongoUri = require('./config/keys').mongoUri;
 
@@ -27,9 +30,9 @@ passport.initialize();
 //passport config
 require('./config/passport')(passport); 
 
-
 //routes
-app.use('/users',users);
+app.use('/users', users);
+app.use('/profile', profile);
 
 
 const PORT = process.env.PORT || 6000
