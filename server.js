@@ -5,12 +5,12 @@ const dev = require('morgan')
 const mongoose = require('mongoose'); 
 const passport = require('passport');
 
+require('dotenv').config();
+
 //routes
 const users = require('./routes/users');
 const profile = require('./routes/profile');
 const posts = require('./routes/posts') 
-
-const mongoUri = require('./config/keys').mongoUri;
 
 
 
@@ -20,8 +20,7 @@ app.use(express.urlencoded({extended : false}));
 app.use(express.json());
 
 //Mongo Connect
-
-mongoose.connect(mongoUri, {useNewUrlParser : true})
+mongoose.connect(process.env.mongoUri, {useNewUrlParser : true})
     .then(() => console.log(`db connected`))
     .catch(err => console.log({error : 'db connection unsuccessful'})); 
 

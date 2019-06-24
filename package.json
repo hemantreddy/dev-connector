@@ -18,6 +18,7 @@
   "homepage": "https://github.com/hemantreddy/dev-connector#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",

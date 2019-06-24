@@ -134,9 +134,10 @@ router.post('/comment/:id', passport.authenticate('jwt', {session : false}), (re
         })
 });
 
-//delete comment //comment':id (private)
+//delete comment //comment/:id/commentId (private)
 
 router.delete('/comment/:id/:commentId', passport.authenticate('jwt',{session: false}), (req, res) => {
+    console.log('triggered')
     Post.findById(req.params.id)
         .then(post => {
             if(post.comments.filter(comment => comment._id.toString() === req.params.commentId).length === 0){
