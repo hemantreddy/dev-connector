@@ -7,7 +7,8 @@ const passport = require('passport');
 
 //routes
 const users = require('./routes/users');
-const profile = require('./routes/profile'); 
+const profile = require('./routes/profile');
+const posts = require('./routes/posts') 
 
 const mongoUri = require('./config/keys').mongoUri;
 
@@ -33,6 +34,7 @@ require('./config/passport')(passport);
 //routes
 app.use('/users', users);
 app.use('/profile', profile);
+app.use('/posts', posts )
 
 
 const PORT = process.env.PORT || 6000
