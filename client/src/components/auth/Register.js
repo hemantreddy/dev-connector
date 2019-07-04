@@ -6,41 +6,46 @@ import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions'
 
 class Register extends Component {
-    constructor(){
-        super();
-        this.state = {
-            name : '',
-            email : '',
-            password : '',
-            password2 : '',
-            errors : {}
-        }
-    }
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
+      errors: {}
+    };
+  }
 
-    componentWillReceiveProps(nextProps) {
-      if(nextProps.errors) {
-        this.setState({errors: nextProps.errors});
-      }
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
     }
+  }
 
-    onChange= (e) => {
-        this.setState({[e.target.name] : e.target.value});
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
-    onSubmit = (e) => {
-        e.preventDefault(); 
+  }
 
-        const newUser = {
-            name : this.state.name,
-            email : this.state.email,
-            password : this.state.password,
-            password2 : this.state.password2,
-        }
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  onSubmit = e => {
+    e.preventDefault();
 
-        this.props.registerUser(newUser, this.props.history);
-    }
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
+
+    this.props.registerUser(newUser, this.props.history);
+  };
 
   render() {
-
     const { errors } = this.state;
 
     return (
@@ -83,8 +88,8 @@ class Register extends Component {
                     <div className="invalid-feedback">{errors.email}</div>
                   )}
                   <small className="form-text text-muted">
-                    This site uses Gravatar so if you want a profile image,
-                    use a Gravatar email
+                    This site uses Gravatar so if you want a profile image, use
+                    a Gravatar email
                   </small>
                 </div>
                 <div className="form-group">
@@ -99,9 +104,7 @@ class Register extends Component {
                     onChange={this.onChange}
                   />
                   {errors.name && (
-                    <div className="invalid-feedback">
-                      {errors.password}
-                    </div>
+                    <div className="invalid-feedback">{errors.password}</div>
                   )}
                 </div>
                 <div className="form-group">
@@ -119,10 +122,7 @@ class Register extends Component {
                     <div className="invalid-feedback">{errors.password2}</div>
                   )}
                 </div>
-                <input
-                  type="submit"
-                  className="btn btn-info btn-block mt-4"
-                />
+                <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
           </div>

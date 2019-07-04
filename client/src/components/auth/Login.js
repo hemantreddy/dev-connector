@@ -14,10 +14,18 @@ class Login extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps){
-      if (nextProps.auth.isAuthenticated) {
+    componentDidMount(){
+      console.log('hello')
+      if(this.props.auth.isAuthenticated) {
         this.props.history.push('/dashboard')
       }
+    }
+
+    componentWillReceiveProps(nextProps){
+      console.log(nextProps.auth.isAuthenticated)
+      if (nextProps.auth.isAuthenticated) {
+        this.props.history.push('/dashboard')
+    }
 
       if(nextProps.errors){
         this.setState({ errors : nextProps.errors})
@@ -41,8 +49,6 @@ class Login extends Component {
 
   render() {
     const { errors } = this.state;
-
-
     return (
       <div className="login">
         <div className="container">
