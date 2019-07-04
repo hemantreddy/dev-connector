@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types'
-import axios from 'axios';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions'
@@ -17,6 +16,12 @@ class Register extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+      if(nextProps.errors) {
+        this.setState({errors: nextProps.errors});
+      }
+    }
+
     onChange= (e) => {
         this.setState({[e.target.name] : e.target.value});
     }
@@ -31,21 +36,14 @@ class Register extends Component {
         }
 
         this.props.registerUser(newUser);
-
-        // axios.post('/users/register', newUser)
-        //   .then(res => console.log(res.data))
-        //   .catch(err => this.setState({errors : err.response.data})); 
     }
 
   render() {
 
     const { errors } = this.state;
 
-    const { user } = this.props.auth;
-
     return (
       <div className="register">
-      {user ? user.name : null }
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -80,6 +78,9 @@ class Register extends Component {
                     value={this.state.email}
                     onChange={this.onChange}
                   />
+                  {errors.name && (
+                    <div className="invalid-feedback">{errors.email}</div>
+                  )}
                   <small className="form-text text-muted">
                     This site uses Gravatar so if you want a profile image,
                     use a Gravatar email
@@ -96,6 +97,11 @@ class Register extends Component {
                     value={this.state.password}
                     onChange={this.onChange}
                   />
+                  {errors.name && (
+                    <div className="invalid-feedback">
+                      {errors.password}
+                    </div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
@@ -108,6 +114,9 @@ class Register extends Component {
                     value={this.state.password2}
                     onChange={this.onChange}
                   />
+                  {errors.name && (
+                    <div className="invalid-feedback">{errors.password2}</div>
+                  )}
                 </div>
                 <input
                   type="submit"
@@ -124,10 +133,11 @@ class Register extends Component {
 
 Register.propTypes = {
   registerUser : PropTypes.func.isRequired,
-  auth : PropTypes.object.isRequired
+  auth : PropTypes.object.isRequired,
+  errors : PropTypes.object.isRequired
 };
-
 const mapStateToProps = (state) => ({
-  auth : state.auth
+  auth : state.auth,
+  errors : state.errors
 });
 export default connect(mapStateToProps, { registerUser })(Register);
