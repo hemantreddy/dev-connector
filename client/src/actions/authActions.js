@@ -8,24 +8,25 @@ import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 
 //register user 
 export const registerUser = (userData, history) => dispatch => {
-    axios
-      .post("/users/register", userData)
-      .then(res => history.push('/login'))
-      .catch(err => 
-        dispatch({
-            type : GET_ERRORS,
-            payload : err.response.data
-        })
-    ); 
+  axios
+    .post("/users/register", userData)
+    .then(res => history.push("/login"))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
-//login - get user
+//login - get user token
 
-export const loginUser = (userData) => dispatch => {
-    axios.post('/users/login', userData)
+export const loginUser = userData => dispatch => {
+    axios
+        .post('/users/login', userData)
         .then(res => {
             //save to local storage
-            const {token} = res.data;
+            const { token } = res.data;
             //set token to local storage
             localStorage.setItem('jwtToken', token)
             //set token to auth header
@@ -36,6 +37,7 @@ export const loginUser = (userData) => dispatch => {
             dispatch(setCurrentUser(decoded));
         })
         .catch(err => {
+            console.log(err)
             dispatch({
                 type : GET_ERRORS,
                 payload : err.response.data
