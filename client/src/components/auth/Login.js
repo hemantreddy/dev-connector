@@ -15,14 +15,12 @@ class Login extends Component {
     }
 
     componentDidMount(){
-      console.log('hello')
       if(this.props.auth.isAuthenticated) {
         this.props.history.push('/dashboard')
       }
     }
 
     componentWillReceiveProps(nextProps){
-      console.log(nextProps.auth.isAuthenticated)
       if (nextProps.auth.isAuthenticated) {
         this.props.history.push('/dashboard')
     }
