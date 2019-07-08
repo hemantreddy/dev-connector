@@ -33,7 +33,16 @@ export const createProfile = (profileData, history) => dispatch => {
             })
         )
 }
+//add experience 
 
+export const addExperience = (expData, history) => dispatch => {
+    axios.post('profile/experience', expData)
+        .then(res => history.push('/dashboard'))
+        .catch(err => dispatch({
+            type : GET_ERRORS,
+            payload : err.response.data
+        }));
+}
 //delete account and profile
 
 export const deleteAccount = () => dispatch => {
