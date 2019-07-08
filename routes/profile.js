@@ -112,14 +112,12 @@ router.post('/', passport.authenticate('jwt', {session : false}), (req, res) => 
     }
 
     //socials
-    profileFields.socials = {};
-    if(req.body.youtube) profileFields.socials.youtube = req.body.youtube;
-    if(req.body.twitter) profileFields.socials.twitter = req.body.twitter;
-    if(req.body.instagram) profileFields.socials.instagram = req.body.instagram;
-    if(req.body.linkedin) profileFields.socials.linkedin = req.body.linkedin;
-    if(req.body.facebook) profileFields.socials.facebook = req.body.facebook;
-
-    console.log(profileFields)
+    profileFields.social = {};
+    if(req.body.youtube) profileFields.social.youtube = req.body.youtube;
+    if(req.body.twitter) profileFields.social.twitter = req.body.twitter;
+    if(req.body.instagram) profileFields.social.instagram = req.body.instagram;
+    if(req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
+    if(req.body.facebook) profileFields.social.facebook = req.body.facebook;
 
     Profile.findOne({user : req.user.id})
         .then(profile => {
