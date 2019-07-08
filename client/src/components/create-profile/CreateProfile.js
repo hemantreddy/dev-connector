@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
 import InputGroup from '../common/InputGroup'
 import SelectListGroup from '../common/SelectListGroup'
+import {createProfile} from '../../actions/profileActions'
 
 class CreateProfile extends Component {
 
@@ -29,10 +31,34 @@ class CreateProfile extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.errors) {
+            this.setState({errors : nextProps.errors})
+        }
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
-        console.log('submit')
+
+        const profileData = {
+          handle: this.state.handle,
+          company: this.state.company,
+          website: this.state.website,
+          location: this.state.location,
+          status: this.state.status,
+          skills: this.state.skills,
+          githubusername: this.state.githubusername,
+          bio: this.state.bio,
+          twitter: this.state.twitter,
+          facebook: this.state.facebook,
+          linkedin: this.state.linkedin,
+          youtube: this.state.youtube,
+          instagram: this.state.instagram
+        };
+
+        this.props.createProfile(profileData, this.props.history);
     }
+
     onChange = (e) => {
         this.setState({[e.target.name] : e.target.value})
     }
@@ -134,7 +160,7 @@ class CreateProfile extends Component {
                       name="handle"
                       value={this.state.handle}
                       onChange={this.onChange}
-                      errors={errors.handle}
+                      error={errors.handle}
                       info="A unique handle for your profile URL. Your full name, company name, nickname"
                     />
                     <SelectListGroup
@@ -143,7 +169,7 @@ class CreateProfile extends Component {
                       options={options}
                       value={this.state.status}
                       onChange={this.onChange}
-                      errors={errors.status}
+                      error={errors.status}
                       info="Give us an idea of where you are at in your career"
                     />
                     <TextFieldGroup
@@ -151,7 +177,7 @@ class CreateProfile extends Component {
                       name="company"
                       value={this.state.company}
                       onChange={this.onChange}
-                      errors={errors.handle}
+                      error={errors.company}
                       info="Could be your own company or the one you work for"
                     />
                     <TextFieldGroup
@@ -195,18 +221,26 @@ class CreateProfile extends Component {
                       error={errors.bio}
                       info="Tell us a little about yourself"
                     />
-                    <div className = "mb-3">
-                        <button onClick = {() => {
-                            this.setState(prevState => ({
-                                displaySocialInputs : !prevState.displaySocialInputs
-                            }))
-                        }} className = "btn btn-light">
-                            Add Social Network Links
-                        </button>
-                        <span className ="text-muted"> Optional</span>
+                    <div className="mb-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          this.setState(prevState => ({
+                            displaySocialInputs: !prevState.displaySocialInputs
+                          }));
+                        }}
+                        className="btn btn-light"
+                      >
+                        Add Social Network Links
+                      </button>
+                      <span className="text-muted"> Optional</span>
                     </div>
                     {socialInputs}
-                    <input type = "submit" value = "Submit" className = "btn btn-info btn-block mt-4"/>
+                    <input
+                      type="submit"
+                      value="Submit"
+                      className="btn btn-info btn-block mt-4"
+                    />
                   </form>
                 </div>
               </div>
@@ -226,4 +260,7 @@ const mapStateToProps = state => ({
     errors : state.errors
 })
 
-export default connect(mapStateToProps)(CreateProfile)
+export default connect(
+  mapStateToProps,
+  { createProfile }
+)(withRouter(CreateProfile));
