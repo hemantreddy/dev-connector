@@ -105,6 +105,7 @@ router.post('/', passport.authenticate('jwt', {session : false}), (req, res) => 
     if(req.body.location) profileFields.location = req.body.location;
     if(req.body.website) profileFields.website = req.body.website;
     if(req.body.bio) profileFields.bio = req.body.bio;
+    if(req.body.status) profileFields.status = req.body.status;
     if(req.body.githubusername) profileFields.githubusername = req.body.githubusername;
     if(req.body.skills !== undefined) {
         profileFields.skills = req.body.skills.split(',')
@@ -117,6 +118,8 @@ router.post('/', passport.authenticate('jwt', {session : false}), (req, res) => 
     if(req.body.instagram) profileFields.socials.instagram = req.body.instagram;
     if(req.body.linkedin) profileFields.socials.linkedin = req.body.linkedin;
     if(req.body.facebook) profileFields.socials.facebook = req.body.facebook;
+
+    console.log(profileFields)
 
     Profile.findOne({user : req.user.id})
         .then(profile => {
@@ -170,7 +173,7 @@ router.post('/education', passport.authenticate('jwt', {session : false}), (req,
         }); 
 });
 
-//add education fields to the user profile
+//add experience fields to the user profile
 router.post('/experience', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
