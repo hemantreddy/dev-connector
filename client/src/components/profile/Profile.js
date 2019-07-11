@@ -42,11 +42,11 @@ class Profile extends Component {
           <ProfileHeader profile={profile} />
           <ProfileAbout profile={profile} />
           <ProfileCreds
-            education={profile.education}
-            experience={profile.experience}
+            education={profile[0].education}
+            experience={profile[0].experience}
           />
-          {profile.githubusername ? (
-            <ProfileGithub username={profile.githubusername} />
+          {profile[0].githubusername ? (
+            <ProfileGithub username={profile[0].githubusername} />
           ) : null}
         </div>
       );
