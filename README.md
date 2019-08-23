@@ -1,2 +1,2 @@
 # dev-connector
-https://petpro.herokuapp.com/feed
+https://petpro.herokuapp.com/
