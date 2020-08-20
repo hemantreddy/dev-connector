@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/hemantreddy/dev-connector#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "concurrently": "^4.1.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
